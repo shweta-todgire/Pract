@@ -1,5 +1,6 @@
 # Pract
 
+
 1. Design a Program for creating machine that accepts three consecutive one.
 
 states = { 
@@ -28,6 +29,7 @@ user_input = input("Enter a binary string: ")
 print("Accepted" if set(user_input) <= {"0", "1"} and check_string_recursive(user_input, initial_state) else "Not accepted")
 
 
+
 2. Design a Program for creating machine that accepts the string always ending with 101.
 
 states = { 
@@ -54,6 +56,7 @@ def check_string_recursive(string: str, current_state: str):
 user_input = input("Enter a binary string: ") 
 
 print("Accepted" if set(user_input) <= {"0", "1"} and check_string_recursive(user_input, initial_state) else "Not accepted") 
+
 
 
 3. Design a program for accepting decimal number divisible by 2.
@@ -97,6 +100,7 @@ def check_divisibility_by_2(n):
         print("Rejected: Not divisible by 2.")
 
 check_divisibility_by_2(int(input("Enter a decimal number: ")))
+
 
 
 6.  Write a program for generating derivation sequence / language for the given sequence of productions.
@@ -145,6 +149,7 @@ else:
     print("\nNo derivation sequence found
 
 
+
 7. Design a program for creating machine that accepts the string containing a (Given input{a, b}). 
  
 class DFA: 
@@ -170,6 +175,7 @@ class DFA:
 dfa = DFA() 
 
 print(f"Result: {dfa.run(input('Enter a string (a, b only): '))}")
+
 
 
 8. Write python code to design a Turing machine to recognize all strings consisting of an even  number of 1’s. 
