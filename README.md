@@ -218,3 +218,210 @@ class TuringMachine:
 user_input = input("Enter a string of '1's only: ") 
 
 print(TuringMachine(user_input).run() if set(user_input) <= {"1"} else "Invalid input!")
+
+
+Extra DFA codes: 
+ 
+1.Constructed DFA that accepts set of all strings that start with 0. 
+
+ 
+class DFA: 
+
+    def __init__(self): 
+    
+        self.state = "q0" 
+        
+        self.accepting_states = {"q1"} 
+ 
+    def transition(self, char): 
+    
+        if self.state == "q0": 
+        
+            self.state = "q1" if char == '0' else "q2" 
+            
+        elif self.state == "q2": 
+        
+            self.state = "q2" 
+ 
+    def is_accepted(self, binary_string): 
+    
+        for char in binary_string: 
+        
+            self.transition(char) 
+            
+        return self.state in self.accepting_states 
+ 
+user_input = input("Enter a binary string: ") 
+ 
+print("Accepted" if user_input and set(user_input) <= {"0", "1"} and DFA().is_accepted(user_input) else "Rejected") 
+ 
+2. Construct a DFA that accepts set of all strings over 0, 1 of a length 2. 
+
+class DFA: 
+
+    def __init__(self): 
+    
+        self.state = "q0" 
+ 
+    def transition(self, char): 
+    
+        if self.state == "q0": 
+        
+            self.state = "q1"  # First character read 
+            
+        elif self.state == "q1": 
+        
+            self.state = "q2"  # Second character read (Accepting state) 
+            
+        elif self.state == "q2": 
+        
+            self.state = "q3"  # Trap state (Length > 2)
+            
+        elif self.state == "q3": 
+        
+            self.state = "q3"  # Stay trapped 
+ 
+    def is_accepted(self, binary_string): 
+    
+        for char in binary_string: 
+        
+            if char not in {"0", "1"}: 
+            
+                return False  # Invalid character 
+                
+            self.transition(char) 
+            
+        return self.state == "q2" 
+ 
+user_input = input("Enter a binary string: ") 
+
+dfa = DFA() 
+
+print("Accepted" if dfa.is_accepted(user_input) else "Rejected") 
+ 
+3. Construct a DFA that accepts set of all strings that ends with a. 
+ 
+class DFA: 
+
+    def __init__(self): 
+    
+        self.state = "q0" 
+ 
+    def transition(self, char): 
+    
+        self.state = "q1" if char == 'a' else "q0" 
+ 
+    def is_accepted(self, string): 
+    
+        for char in string: 
+        
+            if char not in {'a', 'b'}: 
+            
+                return False  # Invalid input
+                
+            self.transition(char) 
+            
+        return self.state == "q1"  # Accept if in q1 
+ 
+user_input = input("Enter a string (a/b only): ") 
+
+dfa = DFA() 
+
+print("Accepted" if dfa.is_accepted(user_input) else "Rejected") 
+ 
+4.Construct a DFA that accepts set of all strings over A, B that contains a string AABB 
+
+class DFA: 
+
+    def __init__(self): 
+    
+        self.state = "q0" 
+     
+    def transition(self, char): 
+    
+        if self.state == "q0": 
+        
+            self.state = "q1" if char == "A" else "q0" 
+            
+        elif self.state == "q1": 
+        
+            self.state = "q2" if char == "A" else "q0" 
+            
+        elif self.state == "q2": 
+        
+            self.state = "q3" if char == "B" else "q2"  # AA seen, reset on A 
+            
+        elif self.state == "q3": 
+        
+            self.state = "q4" if char == "B" else "q0"  # AAB seen, needs B 
+            
+        elif self.state == "q4":  # Accepting state 
+        
+            self.state = "q4" 
+ 
+    def is_accepted(self, input_string): 
+    
+        for char in input_string: 
+        
+            if char not in {'A', 'B'}: 
+            
+                return "REJECTED: Invalid character" 
+                
+            self.transition(char) 
+            
+        return "ACCEPTED" if self.state == "q4" else "REJECTED" 
+ 
+dfa = DFA() 
+
+user_input = input("Enter a string (A, B only): ") 
+
+print(f"Result: {dfa.is_accepted(user_input)}") 
+ 
+ 
+5. Construct a DFA that not containing a string AABB. 
+
+class DFA: 
+
+    def __init__(self): 
+    
+        self.state = "q0" 
+ 
+    def transition(self, char):
+    
+        if self.state == "q0": 
+        
+            self.state = "q1" if char == "A" else "q0" 
+            
+        elif self.state == "q1": 
+        
+            self.state = "q2" if char == "A" else "q0" 
+            
+        elif self.state == "q2": 
+        
+            self.state = "q3" if char == "B" else "q2" 
+            
+        elif self.state == "q3": 
+        
+            self.state = "q4" if char == "B" else "q0" 
+            
+        elif self.state == "q4":  # Trap state 
+        
+            self.state = "q4" 
+ 
+    def is_accepted(self, input_string): 
+    
+        for char in input_string: 
+        
+            if char not in {'A', 'B'}: 
+            
+                return "REJECTED: Invalid character" 
+                
+            self.transition(char) 
+            
+        return "REJECTED" if self.state == "q4" else "ACCEPTED" 
+        
+dfa = DFA() 
+
+user_input = input("Enter a string (A, B only): ") 
+
+print(f"Result: {dfa.is_accepted(user_input)}")
